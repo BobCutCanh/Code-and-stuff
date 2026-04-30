@@ -3,9 +3,9 @@ name: Java CI with Maven
 # 1. Kích hoạt khi có sự kiện push hoặc pull_request vào nhánh main
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "master" ]
   pull_request:
-    branches: [ "main" ]
+    branches: [ "master" ]
 
 jobs:
   build:
