@@ -1,0 +1,30 @@
+name: Automated Code Review
+
+on:
+  pull_request:
+    branches: [ "main" ] # Trigger khi có PR hướng vào nhánh main
+
+jobs:
+  review:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write # Cần quyền này để Bot có thể comment vào PR
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      # Chạy Checkstyle và đăng comment trực tiếp vào dòng code vi phạm
+      - name: Checkstyle Review
+        uses: dbelyaev/action-checkstyle@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          checkstyle_config: config/checkstyle/checkstyle.xml # Đường dẫn tới file luật
+          level: error # Nếu có lỗi sẽ đánh dấu là thất bại (fail build)

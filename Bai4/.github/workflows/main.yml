@@ -1,0 +1,25 @@
+name: Multi-OS Testing
+
+on: [push, pull_request]
+
+jobs:
+  test:
+    # Sử dụng biến matrix để chọn hệ điều hành
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      matrix:
+        # Định nghĩa danh sách các hệ điều hành cần test
+        os: [ubuntu-latest, windows-latest, macos-latest]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Run Tests
+        run: mvn test
